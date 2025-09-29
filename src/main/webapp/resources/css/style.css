@@ -1,0 +1,152 @@
+/* General Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* Main Container */
+.container {
+    display: flex;
+    height: 100vh;
+    background-color: #f8f5ee;
+}
+
+/* Left Side: Login Section */
+.login-section {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 40px;
+}
+
+h1 {
+    font-size: 28px;
+    color: #444;
+    margin-bottom: 20px;
+}
+
+/* Profile Icon */
+.profile-icon {
+    width: 80px;
+    height: 80px;
+    background-color: #ddd;
+    border-radius: 50%;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-icon img {
+    width: 50px;
+    opacity: 0.6;
+}
+
+/* Input Container for Alignment */
+.input-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* Centers the input fields */
+    width: 100%;
+}
+
+/* Input Fields */
+.input-field {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: none;
+    border-radius: 8px;
+    background: #eceae5;
+    font-size: 16px;
+}
+
+/* Password Field with Eye Icon */
+.password-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+}
+
+.eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 12px;
+    cursor: pointer;
+}
+
+/* Links Alignment */
+.links {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 300px;
+    font-size: 14px;
+    margin-bottom: 20px;
+}
+
+/* Login Button */
+.login-button {
+    width: 100%;
+    max-width: 300px;
+    padding: 12px;
+    background-color: #666;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+/* Right Side: Content Section */
+.content-section {
+    width: 50%;
+    background-color: #666;
+    border-radius: 10px;
+    margin: 20px;
+}
+
+/* Убираем отступы по бокам */
+body {
+    background-color: #f8f5ee; /* Белый фон для страницы */
+    margin: 0;
+    padding: 0;
+}
+
+/* Убираем лишний отступ вокруг контейнера */
+.container {
+    display: flex;
+    justify-content: center;  /* Центрируем содержимое */
+    align-items: center;
+    height: 100vh;  /* Чтобы контейнер занимал всю высоту экрана */
+    padding: 0; /* Убираем внутренние отступы */
+    background-color: transparent; /* Убираем белый фон */
+}
+
+/* Убираем белые поля с боков, оставляем серое */
+.login-section {
+    background-color: #fff; /* Белый фон для формы */
+    padding: 40px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px; /* Устанавливаем максимальную ширину */
+}
+
+/* Стили для серого фона по бокам */
+.content-section {
+    background-color: #666; /* Серый фон для правой части */
+    width: 50%;
+    height: 100%;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+}

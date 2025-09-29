@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="3.0" xmlns="https://jakarta.ee/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
+
+    <!-- Define Persistence Unit -->
+    <persistence-unit name="esnPU" transaction-type="JTA">
+        <!-- Connect to the datasource defined in web.xml -->
+        <jta-data-source>java:global/jdbc/esn</jta-data-source>
+
+        <!-- Specify entity classes to be managed -->
+        <class>daw.app.model.User</class>
+
+        <properties>
+            <!-- Drop and recreate the database schema on deployment -->
+            <property name="jakarta.persistence.schema-generation.database.action" value="drop-and-create"/>
+
+            <!-- SQL Script for data loading -->
+            <property name="jakarta.persistence.sql-load-script-source" value="META-INF/sql/sampledata.sql"/>
+
+            <property name="jakarta.persistence.jdbc.url" value="jdbc:h2:tcp://localhost:9092/default"/>
+
+            <!-- Enable JPA SQL logging for debugging -->
+            <property name="eclipselink.logging.level" value="INFO"/>
+            <property name="eclipselink.logging.parameters" value="true"/>
+            <property name="eclipselink.logging.level.sql" value="FINE"/>
+        </properties>
+    </persistence-unit>
+</persistence>

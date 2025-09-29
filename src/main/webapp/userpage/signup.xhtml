@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:f="http://xmlns.jcp.org/jsf/core" lang="en"
+      xmlns:h="jakarta.faces.html">
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sign Up - ESNts</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="../resources/css/style2.css" />
+</h:head>
+<h:body>
+
+<div class="container">
+    <!-- Left Content Section -->
+    <div class="dark-column left"></div>
+
+    <!-- Sign-Up Form Section -->
+    <div class="signup-section">
+        <h1>Welcome to ESNts!</h1>
+        <div class="profile-icon">
+            <img src="#{request.contextPath}/resources/images/user-128.png" alt="User Icon" />
+        </div>
+
+        <!-- JSF Form for Sign Up -->
+        <h:form>
+            <!-- Name & Surname Row -->
+            <div class="form-row">
+                <div class="form-group col-md-6">
+                    <h:outputLabel for="name" value="Name" />
+                    <h:inputText id="name" value="#{userController.user.name}" class="form-control mb-3">
+                        <f:attribute name="label" value="Name" />
+                    </h:inputText>
+                    <h:message for="name" styleClass="error-message" />
+                </div>
+                <div class="form-group col-md-6">
+                    <h:outputLabel for="surname" value="Surname" />
+                    <h:inputText id="surname" value="#{userController.user.surname}" class="form-control mb-3">
+                        <f:attribute name="label" value="Surame" />
+                    </h:inputText>
+                    <h:message for="surname" styleClass="error-message" />
+                </div>
+            </div>
+
+            <!-- Age Field -->
+            <div class="form-group">
+                <h:outputLabel for="age" value="Age" />
+                <h:inputText id="age" value="#{userController.user.age}" class="form-control mb-3"
+                             required="true" requiredMessage="Age is required">
+                    <f:validateLongRange minimum="18" maximum="100" />
+                    <f:attribute name="label" value="Age" />
+                </h:inputText>
+                <h:message for="age" styleClass="error-message" />
+            </div>
+
+            <!-- Student Email with custom validation -->
+            <div class="form-group">
+                <h:outputLabel for="email" value="Student email" />
+                <h:inputText id="email" value="#{userController.user.ujaEmail}" class="form-control mb-3"
+                             required="true" requiredMessage="Email must not be empty"
+                             type="email" validatorMessage="Please enter a valid email address">
+                    <f:attribute name="label" value="Student email" />
+                </h:inputText>
+                <h:message for="email" styleClass="error-message" />
+            </div>
+
+            <div class="form-group">
+                <h:outputLabel for="esnCard" value="ESN Card Number" />
+                <h:inputText id="esnCard" value="#{userController.user.esnCard}" class="form-control mb-3"
+                             required="true" requiredMessage="ESN Card Number must not be empty">
+                    <f:attribute name="label" value="ESN Card Number" />
+                </h:inputText>
+                <h:message for="esnCard" styleClass="error-message" />
+            </div>
+
+            <!-- Password with custom validation -->
+            <div class="form-group">
+                <h:outputLabel for="password" value="Password" />
+                <h:inputSecret id="password" value="#{userController.user.password}" class="form-control mb-3">
+                    <f:attribute name="label" value="Password" />
+                </h:inputSecret>
+                <h:message for="password" styleClass="error-message" />
+            </div>
+
+            <!-- Apply Changes Button -->
+            <h:commandButton value="Sign Up" action="#{userController.register}" class="signup-button" />
+        </h:form>
+
+
+    </div>
+
+    <!-- Right Content Section -->
+    <div class="dark-column right"></div>
+</div>
+
+<!-- Bootstrap JS and dependencies -->
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" type="text/javascript"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" type="text/javascript"></script>
+
+</h:body>
+</html>

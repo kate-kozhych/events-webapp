@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      lang="en"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ESNts Login</title>
+    <link rel="preload" href="#{request.contextPath}/resources/css/style.css" as="style" />
+    <h:outputStylesheet library="css" name="style.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+</h:head>
+<h:body>
+<div class="container">
+    <div class="login-section">
+        <h1>Welcome to ESNts!</h1>
+        <div class="profile-icon">
+            <img src="#{request.contextPath}/resources/images/user-128.png" alt="User Icon" />
+        </div>
+
+        <!-- Error if auth is failed -->
+        <h:panelGroup rendered="#{param.error != null}">
+            <div class="alert alert-danger">Authentication failed. Please check your credentials.</div>
+        </h:panelGroup>
+
+
+        <h:panelGroup rendered="#{param.error != null}">
+            <div class="alert alert-danger">Authentication failed. Please check your credentials.</div>
+        </h:panelGroup>
+
+        <h:form id="loginForm">
+            <div class="form-group">
+                <h:outputLabel for="username" value="Email" />
+                <h:inputText id="username" value="#{loginController.username}"
+                             class="form-control mb-3" required="true"
+                             requiredMessage="Email is required">
+                </h:inputText>
+                <h:message for="username" styleClass="error-message" />
+            </div>
+
+            <div class="form-group">
+                <h:outputLabel for="password" value="Password" />
+                <h:inputSecret id="password" value="#{loginController.password}"
+                               class="form-control mb-3" required="true"
+                               requiredMessage="Password is required">
+                </h:inputSecret>
+                <h:message for="password" styleClass="error-message" />
+            </div>
+
+            <div class="links">
+                <a href="#" class="btn btn-link p-0">Forgot password?</a>
+                <h:link value="Sign up" outcome="signup" class="btn btn-link p-0" />
+            </div>
+
+            <h:commandButton action="#{loginController.login}" value="Log in"
+                             class="login-button btn btn-dark btn-block" />
+
+            <h:messages globalOnly="true" styleClass="error-message" style="margin-top: 15px; list-style-type: none; padding-left: 0;" />
+        </h:form>
+    </div>
+    <div class="content-section"></div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" type="text/javascript"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" type="text/javascript"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" type="text/javascript"></script>
+</h:body>
+</html>

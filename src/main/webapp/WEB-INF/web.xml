@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns="https://jakarta.ee/xml/ns/jakartaee"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="https://jakarta.ee/xml/ns/jakartaee https://jakarta.ee/xml/ns/jakartaee/web-app_6_0.xsd"
+         version="6.0">
+
+    <context-param>
+        <param-name>jakarta.faces.PROJECT_STAGE</param-name>
+        <!--Enable JSF verbose error messages-->
+        <param-value>Development</param-value>
+        <!-- Other values: Production, SystemTest, UnitTest -->
+    </context-param>
+    <context-param>
+        <param-name>jakarta.faces.INTERPRET_EMPTY_STRING_SUBMITTED_VALUES_AS_NULL</param-name>
+        <param-value>true</param-value>
+    </context-param>
+
+    <welcome-file-list>
+        <welcome-file>userpage/login.xhtml</welcome-file>
+    </welcome-file-list>
+
+    <!-- Roles -->
+    <security-role>
+        <role-name>USERS</role-name>
+    </security-role>
+    <security-role>
+        <role-name>ADMINISTRATORS</role-name>
+    </security-role>
+
+    <!-- No access for not authenticated users -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>User area</web-resource-name>
+            <url-pattern>/userlist.xhtml</url-pattern>
+            <url-pattern>/profile.xhtml</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>USERS</role-name>
+            <role-name>ADMINISTRATORS</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <!-- Admin restrictions -->
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Admin operations</web-resource-name>
+            <!-- Можно создать отдельную папку /admin/ для страниц администратора -->
+            <url-pattern>/admin/*</url-pattern>
+        </web-resource-collection>
+        <auth-constraint>
+            <role-name>ADMINISTRATORS</role-name>
+        </auth-constraint>
+    </security-constraint>
+
+    <security-constraint>
+        <web-resource-collection>
+            <web-resource-name>Public resources</web-resource-name>
+            <url-pattern>/login.xhtml</url-pattern>
+            <url-pattern>/signup.xhtml</url-pattern>
+            <url-pattern>/resources/*</url-pattern>
+            <url-pattern>*.css</url-pattern>
+            <url-pattern>/user-128.png</url-pattern>
+            <url-pattern>/javax.faces.resource/*</url-pattern>
+            <url-pattern>/jakarta.faces.resource/*</url-pattern>
+        </web-resource-collection>
+        <!-- No auth-constraint means public access -->
+    </security-constraint>
+
+    <!-- Session configuration -->
+    <session-config>
+        <session-timeout>
+            30 <!-- Time in minutes to expire after the last request -->
+        </session-timeout>
+        <cookie-config>
+            <http-only>true</http-only> <!-- Prevent client side scripting from accessing/manipulating session cookie. -->
+            <secure>false</secure> <!-- true to force send over TLS connection -->
+        </cookie-config>
+        <tracking-mode>COOKIE</tracking-mode> <!-- This disables URL rewriting. -->
+    </session-config>
+
+    <data-source>
+        <name>java:global/jdbc/esn</name>
+        <class-name>org.h2.jdbcx.JdbcDataSource</class-name>
+        <!-- H2 Database connection string with AUTO_SERVER to allow simultaneous access -->
+        <url>jdbc:h2:~/h2db/esndb;MODE=LEGACY;AUTO_SERVER=TRUE</url>
+        <user>esnuser</user>
+        <password>esnuser</password>
+        <initial-pool-size>2</initial-pool-size>
+        <max-pool-size>10</max-pool-size>
+        <min-pool-size>5</min-pool-size>
+    </data-source>
+
+    <login-config>
+        <auth-method>FORM</auth-method>
+        <realm-name>ESN Realm</realm-name>
+        <form-login-config>
+            <form-login-page>/login.xhtml</form-login-page>
+            <form-error-page>/login.xhtml?error=true</form-error-page>
+        </form-login-config>
+    </login-config>
+
+
+    <servlet>
+        <servlet-name>Faces Servlet</servlet-name>
+        <servlet-class>jakarta.faces.webapp.FacesServlet</servlet-class> <!-- Updated for Jakarta EE -->
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>Faces Servlet</servlet-name>
+        <url-pattern>*.xhtml</url-pattern>
+    </servlet-mapping>
+</web-app>
