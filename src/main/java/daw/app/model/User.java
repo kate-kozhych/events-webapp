@@ -1,17 +1,18 @@
 package daw.app.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 
 import java.io.Serializable;
 import daw.app.model.validator.EsnCard;
 
 @Entity
-@Table(name = "users")
+@Table(name = "users",
+    uniqueConstraints = {
+        @UniqueConstraint(name = "uk_user_email", columnNames = "ujaEmail"),
+        @UniqueConstraint(name = "uk_user_esncard", columnNames = "esnCard")
+    })
+
 public class User implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

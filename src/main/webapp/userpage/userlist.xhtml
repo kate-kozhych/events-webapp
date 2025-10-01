@@ -106,22 +106,6 @@
                 <h:commandButton value="Return to Home" action="#{userController.goToHomePage}" styleClass="btn search-btn"/>
             </h:form>
         </div>
-        <div class="admin-actions">
-            <h:panelGroup rendered="#{request.isUserInRole('USERS') and !request.isUserInRole('ADMINISTRATORS')}">
-                <h:form>
-                    <h:commandButton value="Request Admin Access"
-                                     action="#{userController.requestAdminAccess}"
-                                     styleClass="btn btn-info mt-3" />
-                </h:form>
-            </h:panelGroup>
-
-            <h:panelGroup rendered="#{request.isUserInRole('ADMINISTRATORS')}">
-                <div class="alert alert-success mt-3">
-                    You have administrator privileges
-                </div>
-            </h:panelGroup>
-        </div>
-    </div>
 
     <!-- Right Content Section -->
     <div class="dark-column right"></div>

@@ -33,18 +33,21 @@ public class AuthService {
     // Password checking
     public boolean verifyPassword(String password, String hashedPassword) {
         if (password == null || hashedPassword == null) {
+            logger.log(Level.WARNING, "Password verification failed: null input");
             return false;
         }
 
         try {
-            // If password is not hashed
+            // Only accept PBKDF2 hashed passwords
             if (!hashedPassword.startsWith("PBKDF2WithHmacSHA512")) {
-                return password.equals(hashedPassword);
+                logger.log(Level.SEVERE,
+                        "Password verification failed: password not properly hashed");
+                return false;
             }
 
             return passwordHash.verify(password.toCharArray(), hashedPassword);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Ошибка при проверке пароля", e);
+            logger.log(Level.SEVERE, "Error verifying password", e);
             return false;
         }
     }
@@ -52,10 +55,17 @@ public class AuthService {
     // Encrypting
     public String encryptPassword(String password) {
         if (password == null || password.isEmpty()) {
+            logger.log(Level.WARNING, "Attempted to encrypt null/empty password");
             return null;
         }
-        String encryptedPass = passwordHash.generate(password.toCharArray());
-        logger.log(Level.INFO, "Password encrypted successfully");
-        return encryptedPass;
+
+        try {
+            String encryptedPass = passwordHash.generate(password.toCharArray());
+            logger.log(Level.INFO, "Password encrypted successfully");
+            return encryptedPass;
+        } catch (Exception e) {
+            logger.log(Level.SEVERE, "Error verifying password", e);
+            return null;
+        }
     }
 }

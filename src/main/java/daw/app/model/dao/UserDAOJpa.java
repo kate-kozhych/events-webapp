@@ -63,8 +63,7 @@ public class UserDAOJpa implements UserDAO {
             return authService.verifyPassword(password, user.getPassword());
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error checking password", e);
-            // Testing CHANGE LATER
-            return user != null && user.getPassword().equals(password);
+            return false;
         }
     }
 
