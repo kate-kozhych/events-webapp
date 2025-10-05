@@ -5,118 +5,145 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>User List - ESNts</title>
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
     <link rel="stylesheet" href="../resources/css/style2.css" />
     <link rel="stylesheet" href="../resources/css/userlist.css" />
-    <!-- Add fontawesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 </h:head>
 <h:body>
-<div class="container">
-    <!-- Left Content Section -->
-    <div class="dark-column left"></div>
+    <div class="container">
+        <!-- Left Content Section -->
+        <div class="dark-column left"></div>
 
-    <h:panelGroup rendered="#{not empty request.remoteUser}">
-        <h:form styleClass="mr-3">
-            <h:commandButton value="Logout"
-                             action="#{userController.logout}"
-                             styleClass="btn btn-outline-danger btn-sm" />
-        </h:form>
-    </h:panelGroup>
+        <!-- User List Section -->
+        <div class="user-list-section">
+            <h1>Registered Users</h1>
 
-    <!-- User List Section -->
-    <div class="user-list-section">
-        <h1>Registered Users</h1>
-        <h:messages globalOnly="true" styleClass="alert alert-danger" style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0;" />
-        <div class="profile-nav">
+            <h:messages globalOnly="true" styleClass="alert alert-danger"
+                        style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0;" />
+
+            <!-- Navigation and Profile -->
+            <div class="profile-nav">
                 <h:form styleClass="mr-3">
                     <h:commandButton value="Logout"
-                                     action="#{userController.logout}"
+                                     action="#{userAdministrationController.logout}"
                                      styleClass="btn btn-outline-danger btn-sm" />
                 </h:form>
-            <h:form>
-                <h:commandLink action="profile?faces-redirect=true">
-                    <div class="profile-icon-nav">
-                        <img src="#{request.contextPath}/resources/images/user-128.png" alt="User Icon" />
-                    </div>
-                </h:commandLink>
-            </h:form>
-        </div>
-    </div>
-        <!-- Search Form -->
-        <h:form styleClass="search-container">
-            <div class="input-group">
-                <h:inputText value="#{userController.searchEsnCard}" styleClass="form-control" placeholder="Search by ESN Card"/>
-                <div class="input-group-append">
-                    <h:commandButton value="Search" action="#{userController.searchUsersByEsnCard}" styleClass="btn search-btn"/>
-                </div>
+                <h:form>
+                    <h:commandLink action="profile?faces-redirect=true">
+                        <div class="profile-icon-nav">
+                            <img src="#{request.contextPath}/resources/images/user-128.png" alt="User Icon" />
+                        </div>
+                    </h:commandLink>
+                </h:form>
             </div>
-        </h:form>
 
-        <!-- User Table -->
-        <h:form>
-            <h:dataTable value="#{userController.searchResults}" var="user" styleClass="user-table">
-                <h:column>
-                    <f:facet name="header">ID</f:facet>
-                    #{user.id}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">Name</f:facet>
-                    #{user.name}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">Surname</f:facet>
-                    #{user.surname}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">Email</f:facet>
-                    #{user.ujaEmail}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">ESN Card</f:facet>
-                    #{user.esnCard}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">Role</f:facet>
-                    #{user.role}
-                </h:column>
-
-                <h:column>
-                    <f:facet name="header">Actions</f:facet>
-                    <h:commandButton action="#{userController.deleteUser(user.id)}" value="Delete"
-                                     styleClass="btn btn-danger btn-sm"
-                                     rendered="#{(request.isUserInRole('ADMINISTRATORS') || session.getAttribute('user').role == 'admin')
-                                   and (session.getAttribute('user').id != user.id)}">
-                        <f:ajax render="@form :messages" />
-                    </h:commandButton>
-                    <h:outputText value="Current User" rendered="#{session.getAttribute('user').id == user.id}"
-                                  style="color: green; font-style: italic;" />
-                </h:column>
-            </h:dataTable>
-        </h:form>
-
-        <!-- Return to Home Button -->
-        <div class="return-btn-container">
-            <h:form>
-                <h:commandButton value="Return to Home" action="#{userController.goToHomePage}" styleClass="btn search-btn"/>
+            <!-- Search Form -->
+            <h:form id="searchForm" styleClass="search-container">
+                <div class="input-group">
+                    <h:inputText id="searchInput"
+                                 value="#{userSearchController.searchEsnCard}"
+                                 styleClass="form-control"
+                                 placeholder="Search by ESN Card"/>
+                    <div class="input-group-append">
+                        <h:commandButton value="Search"
+                                         action="#{userSearchController.searchUsersByEsnCard}"
+                                         styleClass="btn search-btn">
+                            <f:ajax execute="@form"
+                                    render=":userTableForm:userTable"
+                                    listener="#{userSearchController.searchUsersByEsnCard}"/>
+                        </h:commandButton>
+                    </div>
+                </div>
             </h:form>
+
+            <!-- User Table -->
+            <h:form id="userTableForm">
+                <h:dataTable id="userTable"
+                             value="#{userSearchController.searchResults}"
+                             var="user"
+                             styleClass="user-table">
+                    <h:column>
+                        <f:facet name="header">ID</f:facet>
+                        #{user.id}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Name</f:facet>
+                        #{user.name}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Surname</f:facet>
+                        #{user.surname}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Email</f:facet>
+                        #{user.ujaEmail}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">ESN Card</f:facet>
+                        #{user.esnCard}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Role</f:facet>
+                        #{user.role}
+                    </h:column>
+
+                    <h:column>
+                        <f:facet name="header">Actions</f:facet>
+                        <!-- Delete button - только для админов и не для себя -->
+                        <h:commandButton action="#{userAdministrationController.deleteUser(user.id)}"
+                                         value="Delete"
+                                         styleClass="btn btn-danger btn-sm"
+                                         rendered="#{userAdministrationController.currentUserAdmin
+                                               and session.getAttribute('userDTO').id != user.id}">
+                            <f:ajax render="@form :messages"
+                                    execute="@this"
+                                    listener="#{userSearchController.loadAllUsers}"/>
+                        </h:commandButton>
+
+                        <!-- Indicator for current user -->
+                        <h:outputText value="Current User"
+                                      rendered="#{session.getAttribute('userDTO').id == user.id}"
+                                      style="color: green; font-style: italic;" />
+                    </h:column>
+                </h:dataTable>
+            </h:form>
+
+            <!-- Admin Actions Section -->
+            <div class="admin-actions">
+                <!-- Request Admin Access (for regular users) -->
+                <h:panelGroup rendered="#{userAdministrationController.currentUserRegular}">
+                    <h:form>
+                        <h:commandButton value="Request Admin Access"
+                                         action="#{userAdministrationController.requestAdminAccess}"
+                                         styleClass="btn btn-info mt-3">
+                            <f:ajax render=":messages" />
+                        </h:commandButton>
+                    </h:form>
+                </h:panelGroup>
+
+                <!-- Admin Status Indicator -->
+                <h:panelGroup rendered="#{userAdministrationController.currentUserAdmin}">
+                    <div class="alert alert-success mt-3">
+                        You have administrator privileges
+                    </div>
+                </h:panelGroup>
+            </div>
         </div>
 
-    <!-- Right Content Section -->
-    <div class="dark-column right"></div>
+        <!-- Right Content Section -->
+        <div class="dark-column right"></div>
+    </div>
 
-</div>
-
-<!-- Bootstrap JS and dependencies -->
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" type="text/javascript"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" type="text/javascript"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" type="text/javascript"></script>
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" type="text/javascript"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.2/dist/umd/popper.min.js" type="text/javascript"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" type="text/javascript"></script>
 
 </h:body>
 </html>

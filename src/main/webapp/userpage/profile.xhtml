@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:h="jakarta.faces.html" xmlns:f="http://xmlns.jcp.org/jsf/core">
 <f:metadata>
-    <f:event type="preRenderView" listener="#{userController.loadUserData}" />
+    <f:event type="preRenderView" listener="#{profileController.loadUserData}" />
 </f:metadata>
 <h:head>
     <meta charset="UTF-8" />
@@ -10,9 +10,7 @@
     <title>User Profile - ESNts</title>
     <link rel="preload" href="#{request.contextPath}/resources/css/style2.css" as="style" />
     <h:outputStylesheet library="css" name="style2.css" />
-    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
-
 </h:head>
 <h:body>
     <div class="container">
@@ -26,30 +24,31 @@
                 <img src="#{request.contextPath}/resources/images/user-128.png" alt="User Icon" />
             </div>
 
-            <h:messages globalOnly="true" styleClass="alert alert-danger" style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0;" />
+            <h:messages globalOnly="true" styleClass="alert alert-danger"
+                        style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0;" />
 
             <!-- JSF Form for updating user information -->
             <h:form>
-                <h:inputHidden value="#{userController.user.id}" />
-                <f:metadata>
-                    <f:event type="preRenderView" listener="#{userController.loadUserData}" />
-                </f:metadata>
+                <!-- Скрытое поле с ID -->
+                <h:inputHidden value="#{profileController.profileData.id}" />
 
                 <!-- Name & Surname Row -->
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <h:outputLabel for="name" value="Name" />
-                        <h:inputText id="name" value="#{userController.user.name}" class="form-control mb-3" required="true"
+                        <h:inputText id="name" value="#{profileController.profileData.name}"
+                                     class="form-control mb-3" required="true"
                                      requiredMessage="Name is required">
-                            <f:validateLength minimum="1" />
+                            <f:validateLength minimum="2" />
                         </h:inputText>
                         <h:message for="name" styleClass="error-message" />
                     </div>
                     <div class="form-group col-md-6">
                         <h:outputLabel for="surname" value="Surname" />
-                        <h:inputText id="surname" value="#{userController.user.surname}" class="form-control mb-3" required="true"
+                        <h:inputText id="surname" value="#{profileController.profileData.surname}"
+                                     class="form-control mb-3" required="true"
                                      requiredMessage="Surname is required">
-                            <f:validateLength minimum="1" />
+                            <f:validateLength minimum="2" />
                         </h:inputText>
                         <h:message for="surname" styleClass="error-message" />
                     </div>
@@ -58,7 +57,8 @@
                 <!-- Age Field -->
                 <div class="form-group">
                     <h:outputLabel for="age" value="Age" />
-                    <h:inputText id="age" value="#{userController.user.age}" class="form-control mb-3"
+                    <h:inputText id="age" value="#{profileController.profileData.age}"
+                                 class="form-control mb-3"
                                  required="true" requiredMessage="Age is required">
                         <f:validateLongRange minimum="18" maximum="100" />
                     </h:inputText>
@@ -68,35 +68,42 @@
                 <!-- Student Email -->
                 <div class="form-group">
                     <h:outputLabel for="email" value="Student email" />
-                    <h:inputText id="email" value="#{userController.user.ujaEmail}" class="form-control mb-3" required="true"
+                    <h:inputText id="email" value="#{profileController.profileData.ujaEmail}"
+                                 class="form-control mb-3" required="true"
                                  requiredMessage="Email is required">
                         <f:validateLength minimum="1" />
                     </h:inputText>
                     <h:message for="email" styleClass="error-message" />
                 </div>
 
+                <!-- ESN Card (readonly) -->
                 <div class="form-group">
                     <h:outputLabel for="esnCard" value="ESN Card Number" />
-                    <h:inputText id="esnCard" value="#{userController.user.esnCard}" class="form-control mb-3" readonly="true"/>
+                    <h:inputText id="esnCard" value="#{profileController.currentUser.esnCard}"
+                                 class="form-control mb-3" readonly="true"/>
                 </div>
 
-                <!-- Password field -->
+                <!-- New Password field (optional) -->
                 <div class="form-group">
-                    <h:outputLabel for="password" value="Password" />
-                    <h:inputSecret id="password" value="#{userController.user.password}" class="form-control mb-3" required="true"
+                    <h:outputLabel for="newPassword" value="New Password (leave empty to keep current)" />
+                    <h:inputSecret id="newPassword" value="#{profileController.profileData.newPassword}"
+                                   class="form-control mb-3"
                                    requiredMessage="Password is required">
                         <f:validateLength minimum="6" />
                     </h:inputSecret>
-                    <h:message for="password" styleClass="error-message" />
+                    <h:message for="newPassword" styleClass="error-message" />
                 </div>
 
                 <div class="buttons-container">
-                    <h:commandButton value="Apply Changes" action="#{userController.updateUserInfo}" class="signup-button mb-3"/>
+                    <h:commandButton value="Apply Changes" action="#{profileController.updateProfile}"
+                                     class="signup-button mb-3"/>
                 </div>
                 <div style="text-align: center; margin-top: 10px;">
-                    <a href="userlist.xhtml" class="btn" style="background-color: #888; color: white; padding: 10px 20px; text-decoration: none; border-radius: 4px;">Back to Users</a>
+                    <h:commandButton value="Back to Users" action="#{profileController.backToUserList}"
+                                     class="btn"
+                                     style="background-color: #888; color: white; padding: 10px 20px; border-radius: 4px;"
+                                     immediate="true"/>
                 </div>
-
             </h:form>
         </div>
 
