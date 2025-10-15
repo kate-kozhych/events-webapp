@@ -44,7 +44,6 @@
     <security-constraint>
         <web-resource-collection>
             <web-resource-name>Admin operations</web-resource-name>
-            <!-- Можно создать отдельную папку /admin/ для страниц администратора -->
             <url-pattern>/admin/*</url-pattern>
         </web-resource-collection>
         <auth-constraint>

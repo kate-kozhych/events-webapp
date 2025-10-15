@@ -4,7 +4,7 @@ import daw.app.model.User;
 import daw.app.qualifiers.DAOJpa;
 import daw.app.services.AuthService;
 import jakarta.enterprise.context.ApplicationScoped;
-import jakarta.enterprise.inject.spi.CDI;
+import jakarta.inject.Inject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
@@ -19,34 +19,37 @@ import java.util.logging.Logger;
 
 @ApplicationScoped
 @DAOJpa
-@Transactional  // Automatic transaction handling
+@Transactional
 public class UserDAOJpa implements UserDAO {
 
     private static final Logger logger = Logger.getLogger(UserDAOJpa.class.getName());
 
-    @PersistenceContext  // Injects the EntityManager for JPA operations
+    @PersistenceContext
     private EntityManager em;
+
+    @Inject
+    private AuthService authService;
 
     @Override
     public void save(User user) {
         try {
-            // Persist a new user to the database
             em.persist(user);
+            logger.log(Level.INFO, "User saved successfully with ID: {0}", user.getId());
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error saving user", e);
+            throw e;
         }
     }
 
     @Override
     public User findByLogin(String login) {
         try {
-            // Create a JPQL query to find a user by email
             TypedQuery<User> query = em.createQuery(
                     "SELECT u FROM User u WHERE u.ujaEmail = :email", User.class);
             query.setParameter("email", login);
             return query.getSingleResult();
         } catch (NoResultException e) {
-            // No user found with the given email
+            logger.log(Level.FINE, "No user found with email: {0}", login);
             return null;
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error finding user by login", e);
@@ -57,9 +60,10 @@ public class UserDAOJpa implements UserDAO {
     @Override
     public boolean checkPassword(User user, String password) {
         try {
-            // Injecting auth service
-            AuthService authService = CDI.current().select(AuthService.class).get();
-
+            if (user == null || password == null) {
+                logger.log(Level.WARNING, "Password check failed: null input");
+                return false;
+            }
             return authService.verifyPassword(password, user.getPassword());
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error checking password", e);
@@ -71,11 +75,11 @@ public class UserDAOJpa implements UserDAO {
     @Transactional
     public void update(User user) {
         try {
-            System.out.println("DEBUG: UserDAOJpa updating user with ID: " + user.getId());
-            // Проверка на null и ID
             if (user == null || user.getId() == null) {
                 throw new IllegalArgumentException("User or User ID is null");
             }
+
+            logger.log(Level.INFO, "Updating user with ID: {0}", user.getId());
 
             User existingUser = em.find(User.class, user.getId());
             if (existingUser == null) {
@@ -93,9 +97,9 @@ public class UserDAOJpa implements UserDAO {
             em.merge(existingUser);
             em.flush();
 
-            System.out.println("DEBUG: User update successful");
+            logger.log(Level.INFO, "User updated successfully: {0}", user.getId());
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error updating user", e);
+            logger.log(Level.SEVERE, "Error updating user with ID: " + user.getId(), e);
             throw e;
         }
     }
@@ -103,10 +107,9 @@ public class UserDAOJpa implements UserDAO {
     @Override
     public User findById(Long id) {
         try {
-            // Find an entity by its primary key
             return em.find(User.class, id);
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error finding user by id", e);
+            logger.log(Level.SEVERE, "Error finding user by id: " + id, e);
             return null;
         }
     }
@@ -114,7 +117,6 @@ public class UserDAOJpa implements UserDAO {
     @Override
     public List<User> findAll() {
         try {
-            // JPQL query to get all users
             return em.createQuery("SELECT u FROM User u", User.class).getResultList();
         } catch (Exception e) {
             logger.log(Level.SEVERE, "Error finding all users", e);
@@ -125,21 +127,22 @@ public class UserDAOJpa implements UserDAO {
     @Override
     public void delete(Long id) {
         try {
-            System.out.println("DEBUG: UserDAOJpa deleting user with ID: " + id);
             if (id == null) {
                 throw new IllegalArgumentException("User ID is null");
             }
+
+            logger.log(Level.INFO, "Deleting user with ID: {0}", id);
 
             User user = em.find(User.class, id);
             if (user != null) {
                 em.remove(user);
                 em.flush();
-                System.out.println("DEBUG: User deletion successful");
+                logger.log(Level.INFO, "User deleted successfully: {0}", id);
             } else {
-                System.out.println("WARN: User with ID " + id + " not found for deletion");
+                logger.log(Level.WARNING, "User with ID {0} not found for deletion", id);
             }
         } catch (Exception e) {
-            logger.log(Level.SEVERE, "Error deleting user", e);
+            logger.log(Level.SEVERE, "Error deleting user with ID: " + id, e);
             throw e;
         }
     }
@@ -147,7 +150,6 @@ public class UserDAOJpa implements UserDAO {
     @Override
     public List<User> findByEsnCard(String esnCard) {
         try {
-            // JPQL query with LIKE operator for partial matching
             TypedQuery<User> query = em.createQuery(
                     "SELECT u FROM User u WHERE u.esnCard LIKE :esnCard", User.class);
             query.setParameter("esnCard", "%" + esnCard + "%");

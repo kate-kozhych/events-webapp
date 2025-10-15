@@ -22,6 +22,7 @@
     align-items: center;
     text-align: center;
     padding: 40px;
+    background-color: #fff;
 }
 
 h1 {
@@ -51,7 +52,7 @@ h1 {
 .input-container {
     display: flex;
     flex-direction: column;
-    align-items: center; /* Centers the input fields */
+    align-items: center;
     width: 100%;
 }
 
@@ -104,6 +105,10 @@ h1 {
     cursor: pointer;
 }
 
+.login-button:hover {
+    background-color: #555;
+}
+
 /* Right Side: Content Section */
 .content-section {
     width: 50%;
@@ -112,41 +117,85 @@ h1 {
     margin: 20px;
 }
 
-/* Убираем отступы по бокам */
 body {
-    background-color: #f8f5ee; /* Белый фон для страницы */
+    background-color: #f8f5ee;
     margin: 0;
     padding: 0;
-}
-
-/* Убираем лишний отступ вокруг контейнера */
-.container {
-    display: flex;
-    justify-content: center;  /* Центрируем содержимое */
-    align-items: center;
-    height: 100vh;  /* Чтобы контейнер занимал всю высоту экрана */
-    padding: 0; /* Убираем внутренние отступы */
-    background-color: transparent; /* Убираем белый фон */
-}
-
-/* Убираем белые поля с боков, оставляем серое */
-.login-section {
-    background-color: #fff; /* Белый фон для формы */
-    padding: 40px;
-    border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px; /* Устанавливаем максимальную ширину */
-}
-
-/* Стили для серого фона по бокам */
-.content-section {
-    background-color: #666; /* Серый фон для правой части */
-    width: 50%;
-    height: 100%;
 }
 
 .error-message {
     color: red;
     font-size: 12px;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 768px) {
+    .container {
+        flex-direction: column;
+    }
+
+    .login-section {
+        width: 100%;
+        padding: 30px 20px;
+        min-height: 100vh;
+    }
+
+    .content-section {
+        display: none;
+    }
+
+    h1 {
+        font-size: 24px;
+    }
+
+    .profile-icon {
+        width: 60px;
+        height: 60px;
+    }
+
+    .profile-icon img {
+        width: 40px;
+    }
+
+    .input-field,
+    .password-wrapper,
+    .links,
+    .login-button {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    .login-section {
+        padding: 20px 15px;
+    }
+
+    h1 {
+        font-size: 20px;
+        margin-bottom: 15px;
+    }
+
+    .profile-icon {
+        width: 50px;
+        height: 50px;
+        margin-bottom: 15px;
+    }
+
+    .profile-icon img {
+        width: 30px;
+    }
+
+    .input-field {
+        padding: 10px;
+        font-size: 14px;
+    }
+
+    .links {
+        font-size: 12px;
+    }
+
+    .login-button {
+        padding: 10px;
+        font-size: 14px;
+    }
 }

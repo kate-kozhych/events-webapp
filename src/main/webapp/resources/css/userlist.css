@@ -10,6 +10,19 @@ body {
     max-width: 1200px;
 }
 
+/* User List Section */
+.user-list-section {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 900px;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
 /* Navigation Bar */
 .navbar {
     margin-bottom: 30px;
@@ -31,69 +44,14 @@ h1 {
     font-size: 28px;
 }
 
-/* Search Form */
-.search-form {
-    margin-bottom: 25px;
-}
-
-/* User Table */
-.user-table {
-    width: 100%;
-    margin-bottom: 1rem;
-    background-color: transparent;
-}
-
-.user-table thead th {
-    background-color: #f2f2f2;
-    border-bottom: 2px solid #ddd;
-    font-weight: bold;
-}
-
-.user-table th,
-.user-table td {
-    padding: 12px 15px;
-    vertical-align: middle;
-}
-
-.user-table tbody tr:hover {
-    background-color: #f5f5f5;
-}
-
-/* Action Buttons */
-.action-buttons {
-    display: flex;
-    justify-content: center;
-}
-
-
-.admin-actions {
-    margin-top: 20px;
-    text-align: center;
-}
-
-/* Responsive Adjustments */
-@media (max-width: 768px) {
-    .main-content {
-        padding: 20px 15px;
-    }
-
-    .table-responsive {
-        font-size: 14px;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-    }
-
-    .action-buttons .btn {
-        margin: 2px 0;
-    }
-}
-
+/* Profile Navigation */
 .profile-nav {
     position: absolute;
     top: 20px;
     right: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
 }
 
 .profile-icon-nav {
@@ -118,6 +76,78 @@ h1 {
     opacity: 0.7;
 }
 
+/* Search Form */
+.search-form {
+    margin-bottom: 25px;
+}
+
+.search-container {
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.search-btn {
+    background-color: #666;
+    color: white;
+    border: none;
+    padding: 6px 15px;
+}
+
+.search-btn:hover {
+    background-color: #555;
+}
+
+/* Table Container with Scroll */
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+/* User Table */
+.user-table {
+    width: 100%;
+    margin-bottom: 0;
+    background-color: transparent;
+    border-collapse: collapse;
+}
+
+.user-table thead th {
+    background-color: #f2f2f2;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.user-table th,
+.user-table td {
+    padding: 12px 15px;
+    vertical-align: middle;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.user-table tbody tr:hover {
+    background-color: #f5f5f5;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 5px;
+}
+
+.admin-actions {
+    margin-top: 20px;
+    text-align: center;
+}
+
 .navigation-buttons {
     margin-bottom: 20px;
 }
@@ -133,4 +163,175 @@ h1 {
 
 .back-button:hover {
     background-color: #555;
+}
+
+/* RESPONSIVE STYLES */
+@media (max-width: 992px) {
+    .user-list-section {
+        max-width: 100%;
+        padding: 25px;
+    }
+
+    h1 {
+        font-size: 24px;
+        padding-right: 60px;
+    }
+
+    .user-table th,
+    .user-table td {
+        padding: 10px 12px;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 10px;
+    }
+
+    .user-list-section {
+        padding: 20px 15px;
+        max-height: 95vh;
+    }
+
+    h1 {
+        font-size: 22px;
+        margin-bottom: 20px;
+        padding-right: 70px;
+    }
+
+    .profile-nav {
+        top: 15px;
+        right: 15px;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    .search-container {
+        margin-top: 15px;
+    }
+
+    .table-container {
+        max-height: 350px;
+        border: 1px solid #ddd;
+    }
+
+    .user-table {
+        font-size: 13px;
+    }
+
+    .user-table th,
+    .user-table td {
+        padding: 8px 10px;
+        white-space: nowrap;
+    }
+
+    /* Hide less important columns on mobile */
+    .user-table th:nth-child(1),
+    .user-table td:nth-child(1) {
+        display: none;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+    }
+
+    .action-buttons .btn {
+        margin: 2px 0;
+        font-size: 12px;
+        padding: 5px 10px;
+    }
+}
+
+@media (max-width: 480px) {
+    .user-list-section {
+        padding: 15px 10px;
+        border-radius: 4px;
+    }
+
+    h1 {
+        font-size: 18px;
+        margin-bottom: 15px;
+    }
+
+    .profile-nav {
+        top: 10px;
+        right: 10px;
+    }
+
+    .profile-icon-nav {
+        width: 35px;
+        height: 35px;
+    }
+
+    .profile-icon-nav img {
+        width: 20px;
+        height: 20px;
+    }
+
+    .search-container .input-group {
+        flex-direction: column;
+    }
+
+    .search-container .form-control {
+        border-radius: 4px;
+        margin-bottom: 10px;
+    }
+
+    .search-container .input-group-append {
+        width: 100%;
+    }
+
+    .search-btn {
+        width: 100%;
+        border-radius: 4px;
+    }
+
+    .table-container {
+        max-height: 300px;
+        overflow-x: auto;
+    }
+
+    .user-table {
+        font-size: 12px;
+        min-width: 500px;
+    }
+
+    .user-table th,
+    .user-table td {
+        padding: 6px 8px;
+    }
+
+    /* Also hide Age column on very small screens */
+    .user-table th:nth-child(4),
+    .user-table td:nth-child(4) {
+        display: none;
+    }
+
+    .admin-actions {
+        margin-top: 15px;
+    }
+
+    .admin-actions .btn {
+        font-size: 13px;
+        padding: 8px 15px;
+    }
+}
+
+@media (max-width: 360px) {
+    .user-list-section {
+        padding: 12px 8px;
+    }
+
+    h1 {
+        font-size: 16px;
+    }
+
+    .user-table {
+        font-size: 11px;
+    }
+
+    .table-container {
+        max-height: 250px;
+    }
 }

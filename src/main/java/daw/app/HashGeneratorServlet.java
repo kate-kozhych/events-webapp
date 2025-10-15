@@ -26,7 +26,7 @@ public class HashGeneratorServlet extends HttpServlet {
 
         String[] passwords = {"password123", "secret2", "adminPass", "userPass", "student123"};
 
-        out.println("-- Сгенерированные хеши паролей для SQL-скрипта:");
+        out.println("-- Generated password hashes for the SQL script:");
         for (String password : passwords) {
             String hashedPassword = authService.encryptPassword(password);
             out.println("-- Password: " + password);
