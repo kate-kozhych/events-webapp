@@ -25,8 +25,7 @@
             </div>
 
             <h:messages globalOnly="true" styleClass="alert alert-danger"
-                        style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0;" />
-
+                        style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0; padding: 10px;" />
             <!-- JSF Form for updating user information -->
             <h:form>
                 <!-- Скрытое поле с ID -->
@@ -59,7 +58,8 @@
                     <h:outputLabel for="age" value="Age" />
                     <h:inputText id="age" value="#{profileController.profileData.age}"
                                  class="form-control mb-3"
-                                 required="true" requiredMessage="Age is required">
+                                 required="true" requiredMessage="Age is required"
+                                 validatorMessage="Age must be between 18 and 100">
                         <f:validateLongRange minimum="18" maximum="100" />
                     </h:inputText>
                     <h:message for="age" styleClass="error-message" />

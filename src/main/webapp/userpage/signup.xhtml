@@ -22,7 +22,7 @@
             </div>
 
             <h:messages globalOnly="true" styleClass="alert alert-danger"
-                        style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0;" />
+                        style="list-style-type: none; color: red; font-weight: bold; margin: 10px 0; padding: 10px;" />
 
             <!-- JSF Form for Sign Up -->
             <h:form>
@@ -31,7 +31,7 @@
                     <div class="form-group col-md-6">
                         <h:outputLabel for="name" value="Name" />
                         <h:inputText id="name" value="#{registrationController.registrationData.name}"
-                                     class="form-control mb-3"
+                                     class="form-control"
                                      required="true" requiredMessage="Name is required">
                             <f:validateLength minimum="2" />
                             <f:attribute name="label" value="Name" />
@@ -41,7 +41,7 @@
                     <div class="form-group col-md-6">
                         <h:outputLabel for="surname" value="Surname" />
                         <h:inputText id="surname" value="#{registrationController.registrationData.surname}"
-                                     class="form-control mb-3"
+                                     class="form-control"
                                      required="true" requiredMessage="Surname is required">
                             <f:validateLength minimum="2" />
                             <f:attribute name="label" value="Surname" />
@@ -54,8 +54,9 @@
                 <div class="form-group">
                     <h:outputLabel for="age" value="Age" />
                     <h:inputText id="age" value="#{registrationController.registrationData.age}"
-                                 class="form-control mb-3"
-                                 required="true" requiredMessage="Age is required">
+                                 class="form-control"
+                                 required="true" requiredMessage="Age is required"
+                                 validatorMessage="Age must be between 18 and 100">
                         <f:validateLongRange minimum="18" maximum="100" />
                         <f:attribute name="label" value="Age" />
                     </h:inputText>
@@ -66,7 +67,7 @@
                 <div class="form-group">
                     <h:outputLabel for="email" value="Student email" />
                     <h:inputText id="email" value="#{registrationController.registrationData.ujaEmail}"
-                                 class="form-control mb-3"
+                                 class="form-control"
                                  required="true" requiredMessage="Email must not be empty"
                                  type="email" validatorMessage="Please enter a valid email address">
                         <f:attribute name="label" value="Student email" />
@@ -78,7 +79,7 @@
                 <div class="form-group">
                     <h:outputLabel for="esnCard" value="ESN Card Number" />
                     <h:inputText id="esnCard" value="#{registrationController.registrationData.esnCard}"
-                                 class="form-control mb-3"
+                                 class="form-control"
                                  required="true" requiredMessage="ESN Card Number must not be empty">
                         <f:attribute name="label" value="ESN Card Number" />
                     </h:inputText>
@@ -89,7 +90,7 @@
                 <div class="form-group">
                     <h:outputLabel for="password" value="Password" />
                     <h:inputSecret id="password" value="#{registrationController.registrationData.password}"
-                                   class="form-control mb-3"
+                                   class="form-control"
                                    required="true" requiredMessage="Password is required">
                         <f:validateLength minimum="6" />
                         <f:attribute name="label" value="Password" />
